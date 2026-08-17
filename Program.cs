@@ -49,7 +49,11 @@ var builder = WebApplication.CreateBuilder(args);
 
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseStaticFiles();
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        OnPrepareResponse = ctx =>
+            ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=604800")
+    });
     app.UseCors("AllowAngular");
     app.UseAuthorization();
     app.UseAuthentication();
